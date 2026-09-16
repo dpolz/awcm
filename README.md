@@ -8,10 +8,10 @@ Das Repository klonen und das Skript einmal direkt ausführen:
 
 ```bash
 git clone https://github.com/dpolz/awcm.git ~/awcm
-~/awcm/awcm help
+~/awcm/awcm.bash help
 ```
 
-Beim ersten Aufruf legt das Skript den symbolischen Link `~/.local/bin/awcm` an. Die einzige Skriptdatei bleibt `~/awcm/awcm`; Änderungen aus dem Git-Repository sind deshalb sofort über den globalen Befehl verfügbar. `~/.local/bin` muss in `PATH` enthalten sein.
+Beim ersten Aufruf legt das Skript den symbolischen Link `~/.local/bin/awcm` an. Die einzige Skriptdatei bleibt `~/awcm/awcm.bash`; Änderungen aus dem Git-Repository sind deshalb sofort über den globalen Befehl verfügbar. `~/.local/bin` muss in `PATH` enthalten sein.
 
 Danach kann der Manager ohne Pfadangabe verwendet werden:
 
