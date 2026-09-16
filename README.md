@@ -27,7 +27,9 @@ awcm stop
 ```text
 start       Container im Hintergrund starten
 shell       Interaktive Shell im Container öffnen
-sim         Planning Simulator im aktuellen Terminal starten
+sim         Planning Simulator und Vehicle Interface starten
+build-interface
+            Vehicle Interface im Container kompilieren
 rqt         rqt_graph im aktuellen Terminal starten
 exec ...    Beliebigen Befehl im Container ausführen
 status      Containerstatus anzeigen
@@ -36,6 +38,25 @@ help        Hilfe anzeigen
 ```
 
 Ohne Befehl führt `awcm` den Befehl `start` aus.
+
+## Vehicle Interface im Entwicklungsmodus
+
+`awcm sim` erwartet das Repository unter `~/autoware_data/vehicle_interface`. Vor jedem Simulationsstart prüft AWCM die Protobuf-Buildabhängigkeiten im Container und kompiliert `thorsten_vehicle_interface` inkrementell. Anschließend wird das lokale ROS-Overlay geladen und der Planning Simulator zusammen mit dem Vehicle Interface gestartet.
+
+```bash
+awcm start
+awcm sim
+```
+
+Das Vehicle Interface läuft in der Simulation im Shadow Mode. Es liest die regulären Autoware-Steuerbefehle, während seine Statusausgänge und sein Control-Mode-Service unter `/thorsten/...` isoliert werden. Damit konkurriert es nicht mit dem `simple_planning_simulator`.
+
+Der Build kann auch unabhängig von der Simulation ausgeführt werden:
+
+```bash
+awcm build-interface
+```
+
+Da der Container mit `--rm` läuft, installiert AWCM die Protobuf-Buildabhängigkeiten nach einem vollständigen Container-Neustart bei Bedarf erneut. Die Build-Ausgaben bleiben im gemounteten Verzeichnis `~/autoware_data/vehicle_interface/autoware_ws` erhalten.
 
 ## Konfiguration
 
