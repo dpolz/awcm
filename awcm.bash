@@ -8,6 +8,7 @@ SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 
 # Feste, bei Bedarf ueber Umgebungsvariablen ueberschreibbare Einstellungen.
 CONTAINER_NAME="${AWCM_CONTAINER_NAME:-${AUTOWARE_CONTAINER_NAME:-autoware}}"
+CONTAINER_USER="${AWCM_CONTAINER_USER:-aw}"
 IMAGE="${AWCM_IMAGE:-${AUTOWARE_IMAGE:-ghcr.io/autowarefoundation/autoware:universe-cuda-jazzy-1.9.0}}"
 DATA_DIR="${AWCM_DATA_DIR:-${AUTOWARE_DATA_DIR:-${HOME}/autoware_data}}"
 
@@ -104,7 +105,7 @@ start_container() {
 
 open_shell() {
   require_running
-  docker exec -it "${CONTAINER_NAME}" \
+  docker exec --user "${CONTAINER_USER}" -it "${CONTAINER_NAME}" \
     bash -lc 'source /opt/autoware/setup.bash && exec bash -i'
 }
 
@@ -115,7 +116,7 @@ run_command() {
     exit 2
   fi
 
-  docker exec -it "${CONTAINER_NAME}" \
+  docker exec --user "${CONTAINER_USER}" -it "${CONTAINER_NAME}" \
     bash -lc 'source /opt/autoware/setup.bash && exec "$@"' bash "$@"
 }
 
@@ -129,7 +130,7 @@ launch_simulator() {
 launch_rqt_graph() {
   require_running
 
-  if ! docker exec "${CONTAINER_NAME}" \
+  if ! docker exec --user "${CONTAINER_USER}" "${CONTAINER_NAME}" \
     bash -lc 'source /opt/autoware/setup.bash && ros2 pkg prefix rqt_graph >/dev/null 2>&1'; then
     echo "rqt_graph fehlt und wird im laufenden Container installiert ..."
     docker exec --user root "${CONTAINER_NAME}" \
@@ -160,6 +161,7 @@ Beispiele:
 
 Feste Einstellungen:
   Container: ${CONTAINER_NAME}
+  Benutzer:  ${CONTAINER_USER}
   Image:     ${IMAGE}
   Daten:     ${DATA_DIR}
 EOF

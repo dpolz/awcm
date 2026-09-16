@@ -43,6 +43,7 @@ Die Standardwerte können über Umgebungsvariablen überschrieben werden:
 
 ```text
 AWCM_CONTAINER_NAME   Containername, Standard: autoware
+AWCM_CONTAINER_USER   Benutzer für Befehle im Container, Standard: aw
 AWCM_IMAGE            Autoware-Image
 AWCM_DATA_DIR         Host-Verzeichnis für Karten, Modelle und Logs
 AWCM_INSTALL_DIR      Verzeichnis für den symbolischen Link
